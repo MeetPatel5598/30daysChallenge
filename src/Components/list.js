@@ -9,7 +9,7 @@ class List extends React.Component{
         this.state = {
             list : [],
             value : '',
-            showA : true
+            showA : false
         }
         this.onSubmitButton = this.onSubmitButton.bind(this);
     }
@@ -22,7 +22,8 @@ class List extends React.Component{
             return {
                 ...prevState,
               list : list,
-              value: ''
+              value: '',
+              showA : true
             };
         });
     }
@@ -32,10 +33,17 @@ class List extends React.Component{
     };
 
     render(){
-        const {list} = this.state;
+        const {list, showA} = this.state;
         const groupList = list.map((data, index) => {
             return  (
-                <Toast>
+                <Toast style={{marginTop: "20px"}} show={showA} onClose={()=>{
+                    this.setState(prevState =>{
+                        return {
+                            ...prevState,
+                          showA : false
+                        };
+                    })
+                }}>
                 <Toast.Header>
                     <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
                     <strong  key={index} className="mr-auto">To-Do</strong>
@@ -45,7 +53,7 @@ class List extends React.Component{
             )
         });
         return(
-            <Container>
+            <Container style={{marginTop: "20px"}}>
                 <Form>    
                     <Row>
                     <Col>
