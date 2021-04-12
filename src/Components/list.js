@@ -1,7 +1,6 @@
 import React from 'react';
-import { Button,Form,Container,Col,Row,Toast } from 'react-bootstrap';
-
-
+import { Button,Form,Container,Col,Row } from 'react-bootstrap';
+import './list.css';
 
 class List extends React.Component{
     constructor(props){
@@ -28,28 +27,36 @@ class List extends React.Component{
         });
     }
 
+    deleteList= event =>{
+        this.setState({value : event.target.value});
+        console.log(event.target.value);
+    }
+
     onChangeValue = event => {
         this.setState({ value: event.target.value });
     };
 
     render(){
-        const {list, showA} = this.state;
+        const {list} = this.state;
         const groupList = list.map((data, index) => {
             return  (
-                <Toast style={{marginTop: "20px"}} show={showA} onClose={()=>{
-                    this.setState(prevState =>{
-                        return {
-                            ...prevState,
-                          showA : false
-                        };
-                    })
-                }}>
-                <Toast.Header>
-                    <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-                    <strong  key={index} className="mr-auto">To-Do</strong>
-                </Toast.Header>
-                <Toast.Body>{data}</Toast.Body>
-                </Toast>
+            <ul className="demo">
+                <li key={index}>{data}<button onClick={this.deleteList}>X</button></li>
+            </ul>
+                // <Toast style={{marginTop: "20px"}} show={showA} onClose={()=>{
+                //     this.setState(prevState =>{
+                //         return {
+                //             ...prevState,
+                //           showA : false
+                //         };
+                //     })
+                // }}>
+                // <Toast.Header>
+                //     <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
+                //     <strong  key={index} className="mr-auto">To-Do</strong>
+                // </Toast.Header>
+                // <Toast.Body>{data}</Toast.Body>
+                // </Toast>
             )
         });
         return(
@@ -65,9 +72,9 @@ class List extends React.Component{
                     </Row>
                 </Form>
                 
-                <Row>
+                <Col style={{marginTop: "20px"}}> 
                 {groupList}
-                </Row>
+                </Col>
             </Container>
         )
     }
