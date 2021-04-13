@@ -28,8 +28,15 @@ class List extends React.Component{
     }
 
     deleteList= event =>{
-        this.setState({value : event.target.value});
-        console.log(event.target.value);
+        var array = this.state.list;
+        var index = array.indexOf(event.target.value); // Let's say it's Bob.
+        delete array[index];
+        this.setState(prevState => {
+            return {
+                ...prevState,
+              list : array,
+            };
+        });
     }
 
     onChangeValue = event => {
@@ -38,27 +45,7 @@ class List extends React.Component{
 
     render(){
         const {list} = this.state;
-        const groupList = list.map((data, index) => {
-            return  (
-            <ul className="demo">
-                <li key={index}>{data}<button onClick={this.deleteList}>X</button></li>
-            </ul>
-                // <Toast style={{marginTop: "20px"}} show={showA} onClose={()=>{
-                //     this.setState(prevState =>{
-                //         return {
-                //             ...prevState,
-                //           showA : false
-                //         };
-                //     })
-                // }}>
-                // <Toast.Header>
-                //     <img src="holder.js/20x20?text=%20" className="rounded mr-2" alt="" />
-                //     <strong  key={index} className="mr-auto">To-Do</strong>
-                // </Toast.Header>
-                // <Toast.Body>{data}</Toast.Body>
-                // </Toast>
-            )
-        });
+        
         return(
             <Container style={{marginTop: "20px"}}>
                 <Form>    
@@ -73,7 +60,11 @@ class List extends React.Component{
                 </Form>
                 
                 <Col style={{marginTop: "20px"}}> 
-                {groupList}
+                <ul className="demo">
+                {list.map((data,index)=>{
+                   return <li key={index}>{data}<button value={data} onClick={this.deleteList}>X</button></li>
+                })}
+                </ul>
                 </Col>
             </Container>
         )
